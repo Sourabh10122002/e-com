@@ -135,6 +135,7 @@ src/
 ├── components/            # Reusable React components
 │   ├── Navigation.tsx     # Site navigation
 │   ├── ProductCard.tsx    # Product display card
+│   ├── Footer.tsx         # Footer component
 │   └── SearchAndFilter.tsx # Search and filtering
 ├── lib/                   # Utility functions
 │   └── data.ts           # Data management functions
@@ -160,7 +161,7 @@ data/
 Include the API key in request headers:
 ```javascript
 headers: {
-  'x-api-key': 'admin123'
+  'x-api-key': 'admin-secret-key'
 }
 ```
 

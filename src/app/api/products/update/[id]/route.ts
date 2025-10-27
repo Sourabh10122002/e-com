@@ -11,7 +11,7 @@ function checkAdminAuth(request: NextRequest): boolean {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!checkAdminAuth(request)) {
@@ -21,7 +21,7 @@ export async function PUT(
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     
     if (!id) {
       return NextResponse.json(
