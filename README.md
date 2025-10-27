@@ -1,3 +1,6 @@
+Name - Sourabh Rawat
+Date - 27 October 2025
+
 # E-Commerce Web Application
 
 A modern e-commerce web application built with Next.js 16, demonstrating different rendering strategies across various sections of the application.
