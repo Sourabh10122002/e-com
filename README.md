@@ -1,36 +1,282 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce Web Application
 
-## Getting Started
+A modern e-commerce web application built with Next.js 16, demonstrating different rendering strategies across various sections of the application.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Product Catalog**: Browse and search through products with filtering and sorting
+- **Product Details**: Detailed product pages with related products
+- **Inventory Dashboard**: Real-time inventory statistics and management
+- **Admin Panel**: Product management with CRUD operations
+- **Recommendations**: AI-powered product recommendations
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+
+## 🏗️ Architecture & Rendering Strategies
+
+This application demonstrates four different Next.js rendering methods:
+
+### 1. Static Site Generation (SSG) - Home Page (`/`)
+- **Implementation**: `src/app/page.tsx`
+- **Strategy**: Pre-rendered at build time
+- **Benefits**: Fastest loading, excellent SEO, cached by CDN
+- **Use Case**: Product listing page that doesn't change frequently
+
+### 2. Incremental Static Regeneration (ISR) - Product Details (`/products/[slug]`)
+- **Implementation**: `src/app/products/[slug]/page.tsx`
+- **Strategy**: Static generation with 60-second revalidation
+- **Benefits**: Static performance with fresh content updates
+- **Use Case**: Product pages that need periodic updates for inventory/pricing
+
+### 3. Server-Side Rendering (SSR) - Dashboard (`/dashboard`)
+- **Implementation**: `src/app/dashboard/page.tsx`
+- **Strategy**: Rendered on each request
+- **Benefits**: Always fresh data, good for dynamic content
+- **Use Case**: Inventory dashboard requiring real-time data
+
+### 4. Client-Side Rendering (CSR) - Admin Panel (`/admin`)
+- **Implementation**: `src/app/admin/page.tsx`
+- **Strategy**: Rendered in the browser with React hooks
+- **Benefits**: Interactive UI, real-time updates, reduced server load
+- **Use Case**: Admin interface with complex interactions
+
+### 5. React Server Components (RSC) - Recommendations (`/recommendations`)
+- **Implementation**: `src/app/recommendations/page.tsx`
+- **Strategy**: Server components with zero client-side JavaScript
+- **Benefits**: Reduced bundle size, server-side data fetching
+- **Use Case**: Content-heavy pages with minimal interactivity
+
+## 🛠️ Technology Stack
+
+- **Framework**: Next.js 16 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Data Storage**: JSON file-based (mock database)
+- **Authentication**: API key-based (demo purposes)
+- **Build Tool**: Turbopack (Next.js 16 default)
+
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd e-com
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Update `.env.local` with your values:
+   ```env
+   ADMIN_API_KEY=admin123
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   Navigate to `http://localhost:3000` (or the port shown in terminal)
+
+## 🎯 Usage Guide
+
+### Browsing Products
+- Visit the home page to see all products
+- Use the search bar to find specific products
+- Filter by category or sort by price/name
+- Click on any product to view details
+
+### Admin Operations
+1. Navigate to `/admin`
+2. Enter the admin API key: `admin123`
+3. Add, edit, or view products
+4. Changes are reflected immediately across the application
+
+### Viewing Analytics
+- Visit `/dashboard` to see real-time inventory statistics
+- Monitor low stock and out-of-stock items
+- View total inventory value and product counts
+
+### Getting Recommendations
+- Visit `/recommendations` for personalized product suggestions
+- Browse featured products, category-based recommendations, and more
+
+## 🗂️ Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── admin/             # Admin panel (CSR)
+│   ├── api/               # API routes
+│   │   ├── products/      # Product CRUD operations
+│   │   └── inventory/     # Inventory statistics
+│   ├── dashboard/         # Inventory dashboard (SSR)
+│   ├── products/[slug]/   # Product details (ISR)
+│   ├── recommendations/   # Recommendations (RSC)
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx          # Home page (SSG)
+├── components/            # Reusable React components
+│   ├── Navigation.tsx     # Site navigation
+│   ├── ProductCard.tsx    # Product display card
+│   └── SearchAndFilter.tsx # Search and filtering
+├── lib/                   # Utility functions
+│   └── data.ts           # Data management functions
+└── types/                 # TypeScript type definitions
+    └── product.ts        # Product-related types
+
+data/
+└── products.json         # Mock database file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 API Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Public Endpoints
+- `GET /api/products` - Fetch all products
+- `GET /api/products/[slug]` - Fetch product by slug
+- `GET /api/inventory/stats` - Get inventory statistics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Protected Endpoints (Require API Key)
+- `POST /api/products` - Create new product
+- `PUT /api/products/update/[id]` - Update existing product
 
-## Learn More
+### Authentication
+Include the API key in request headers:
+```javascript
+headers: {
+  'x-api-key': 'admin123'
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Styling & Design
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: Tailwind CSS for utility-first styling
+- **Design System**: Consistent color palette and spacing
+- **Responsive**: Mobile-first approach with breakpoints
+- **Components**: Reusable styled components
+- **Icons**: SVG icons for better performance
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment
 
-## Deploy on Vercel
+### Build for Production
+```bash
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Start Production Server
+```bash
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Deploy to Vercel (Recommended)
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Set environment variables in Vercel dashboard
+4. Deploy automatically on push
+
+## 🧪 Development
+
+### Adding New Products
+Products are stored in `data/products.json`. The structure:
+```json
+{
+  "id": "unique-id",
+  "name": "Product Name",
+  "slug": "product-slug",
+  "description": "Product description",
+  "price": 99.99,
+  "category": "Category",
+  "inventory": 50,
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### Extending the API
+Add new routes in `src/app/api/` following the existing patterns.
+
+### Adding New Pages
+Create new pages in `src/app/` using the appropriate rendering strategy.
+
+## 📊 Performance Considerations
+
+### Rendering Strategy Selection
+- **SSG**: Use for content that rarely changes (marketing pages, product catalogs)
+- **ISR**: Use for content that changes periodically (product details, blog posts)
+- **SSR**: Use for personalized or real-time content (dashboards, user profiles)
+- **CSR**: Use for highly interactive interfaces (admin panels, complex forms)
+- **RSC**: Use for content-heavy pages with minimal interactivity
+
+### Optimization Features
+- **Image Optimization**: Next.js automatic image optimization
+- **Code Splitting**: Automatic code splitting by route
+- **Caching**: Appropriate caching strategies for each rendering method
+- **Bundle Analysis**: Use `npm run build` to analyze bundle sizes
+
+## 🔍 Monitoring & Analytics
+
+### Built-in Monitoring
+- Real-time inventory tracking
+- Product performance metrics
+- User interaction analytics (can be extended)
+
+### Recommended Tools
+- **Vercel Analytics**: For deployment analytics
+- **Google Analytics**: For user behavior tracking
+- **Sentry**: For error monitoring
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📝 License
+
+This project is for educational purposes. Feel free to use and modify as needed.
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+**Port already in use**
+```bash
+# Kill process on port 3000
+lsof -ti:3000 | xargs kill -9
+```
+
+**Build errors**
+```bash
+# Clear Next.js cache
+rm -rf .next
+npm run build
+```
+
+**TypeScript errors**
+```bash
+# Check TypeScript configuration
+npx tsc --noEmit
+```
+
+### Getting Help
+- Check the [Next.js documentation](https://nextjs.org/docs)
+- Review the [Tailwind CSS documentation](https://tailwindcss.com/docs)
+- Open an issue in the repository
+
+---
+
+Built with ❤️ using Next.js 16 and modern web technologies.
